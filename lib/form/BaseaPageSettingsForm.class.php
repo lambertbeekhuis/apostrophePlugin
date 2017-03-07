@@ -655,7 +655,7 @@ class BaseaPageSettingsForm extends aPageForm
     // not already deliberately different
     if ($object->slug !== $oldSlug)
     {
-      Doctrine::getTable('aRedirect')->update($oldSlug, $object);
+      Doctrine::getTable('aRedirect')->update_redirect($oldSlug, $object);
       $children = $object->getChildren();
       foreach ($children as $child)
       {

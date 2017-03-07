@@ -493,7 +493,7 @@ class PluginaPageTable extends Doctrine_Table
 
     if (isset($routes['a_page']))
     {
-      $r = $routes['a_page'];
+      $r = $routing->getRoute('a_page');
       $parameters = $r->matchesUrl($url);
       if ($parameters)
       {

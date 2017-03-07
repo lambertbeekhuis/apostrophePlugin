@@ -25,7 +25,7 @@ class PluginaRedirectTable extends Doctrine_Table
    * @param mixed $fromSlug
    * @param mixed $toPage
    */
-  public function update($fromSlug, $toPage)
+  public function update_redirect($fromSlug, $toPage)
     {
       $redirect = $this->createQuery('r')->where('r.slug = ?', array($fromSlug))->fetchOne();
       if (!$redirect)

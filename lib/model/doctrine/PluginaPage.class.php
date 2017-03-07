@@ -2074,7 +2074,7 @@ abstract class PluginaPage extends BaseaPage
     }
     $this->slug = $newPath;
     $this->save();
-    Doctrine::getTable('aRedirect')->update($path, $this);
+    Doctrine::getTable('aRedirect')->update_redirect($path, $this);
     $children = $this->getChildren();
     foreach ($children as $child)
     {
@@ -2106,7 +2106,7 @@ abstract class PluginaPage extends BaseaPage
     }
     if ($this->slug !== $newSlug)
     {
-      Doctrine::getTable('aRedirect')->update($this->slug, $this);
+      Doctrine::getTable('aRedirect')->update_redirect($this->slug, $this);
       $this->slug = $newSlug;
       $this->save();
       $children = $this->getChildren();
@@ -2160,7 +2160,7 @@ abstract class PluginaPage extends BaseaPage
     if ($slug !== $newSlug)
     {
       $this->slug = $newSlug;
-      Doctrine::getTable('aRedirect')->update($slug, $this);
+      Doctrine::getTable('aRedirect')->update_redirect($slug, $this);
       $this->save();
       $children = $this->getChildren();
       foreach ($children as $child)
