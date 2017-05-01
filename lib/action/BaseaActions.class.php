@@ -76,7 +76,7 @@ class BaseaActions extends sfActions
 
   public function findRedirect($slug)
   {
-    $redirect = Doctrine::getTable('aRedirect')->findOneBySlug($slug);
+    $redirect = Doctrine_Core::getTable('aRedirect')->findOneBySlug($slug);
     if ($redirect)
     {
       $page = aPageTable::retrieveByIdWithSlots($redirect->page_id);
@@ -272,7 +272,7 @@ class BaseaActions extends sfActions
 
     foreach ($order as $id)
     {
-      $child = Doctrine::getTable('aPage')->find($id);
+      $child = Doctrine_Core::getTable('aPage')->find($id);
       if (!$child)
       {
         continue;
@@ -816,7 +816,7 @@ class BaseaActions extends sfActions
       // This is how blog posts and events get merged into search results - their content
       // lives in pages to begin with.
 
-      $table = Doctrine::getTable('aPage');
+      $table = Doctrine_Core::getTable('aPage');
       $query = $table->createQuery('p')->select('p.*');
       // Restrict page visibility as appropriate
       $table->addViewPermissionsToQuery($query);
@@ -848,7 +848,7 @@ class BaseaActions extends sfActions
     {
       try
       {
-        $values = aZendSearch::searchLuceneWithValues(Doctrine::getTable('aPage'), $q, aTools::getUserCulture());
+        $values = aZendSearch::searchLuceneWithValues(Doctrine_Core::getTable('aPage'), $q, aTools::getUserCulture());
       } catch (Exception $e)
       {
         // Lucene search error. TODO: display it nicely if they are always safe things to display. For now: just don't crash
@@ -863,7 +863,7 @@ class BaseaActions extends sfActions
 
       $nvalues = array();
 
-      $index = Doctrine::getTable('aPage')->getLuceneIndex();
+      $index = Doctrine_Core::getTable('aPage')->getLuceneIndex();
 
       foreach ($values as $value)
       {

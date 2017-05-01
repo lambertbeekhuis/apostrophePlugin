@@ -225,7 +225,7 @@ class aSql extends aMysql
     // It would be faster to do fewer queries by caching what we know so far about tags
     foreach ($tags as $tag)
     {
-      $existing = Doctrine::getTable('Tag')->createQuery('t')->where('t.name = ?', $tag)->execute(array(), Doctrine::HYDRATE_ARRAY);
+      $existing = Doctrine_Core::getTable('Tag')->createQuery('t')->where('t.name = ?', $tag)->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
       if (!count($existing))
       {
         $this->query('INSERT INTO tag (name) VALUES (:name)', array('name' => $tag));

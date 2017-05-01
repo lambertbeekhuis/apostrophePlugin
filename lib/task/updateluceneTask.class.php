@@ -66,11 +66,11 @@ EOF;
     
     if ($options['table'] === 'aPage')
     {
-      $q = Doctrine::getTable('aLuceneUpdate')->createQuery('u');
+      $q = Doctrine_Core::getTable('aLuceneUpdate')->createQuery('u');
     }
     else
     {
-      $q = Doctrine::getTable($options['table'])->createQuery('o')->where('o.lucene_dirty IS TRUE');
+      $q = Doctrine_Core::getTable($options['table'])->createQuery('o')->where('o.lucene_dirty IS TRUE');
     }
     if ($options['limit'] !== false)
     {

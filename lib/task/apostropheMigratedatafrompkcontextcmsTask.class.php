@@ -250,7 +250,7 @@ echo("after\n");
     $count = 0;
     // Avoid a wildcard select here because we could be missing columns that plugins
     // are going to add at this stage of play. Get the columns we need only
-    $mediaSlots = Doctrine::getTable('aSlot')->createQuery('s')->select('s.id, s.type, s.value')->whereIn('s.type', array('aImage', 'aPDF', 'aButton', 'aSlideshow', 'aVideo'))->execute();
+    $mediaSlots = Doctrine_Core::getTable('aSlot')->createQuery('s')->select('s.id, s.type, s.value')->whereIn('s.type', array('aImage', 'aPDF', 'aButton', 'aSlideshow', 'aVideo'))->execute();
     $total = count($mediaSlots);
     foreach ($mediaSlots as $mediaSlot)
     {

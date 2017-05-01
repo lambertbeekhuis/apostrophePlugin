@@ -324,7 +324,7 @@ class BaseaMediaActions extends aEngineActions
     $this->hasPermissionsForSelect();
     
     $id = $request->getParameter('id') + 0;
-    $item = Doctrine::getTable("aMediaItem")->find($id);
+    $item = Doctrine_Core::getTable("aMediaItem")->find($id);
     $this->forward404Unless($item);
     $selection = aMediaTools::getSelection();
     if (!aMediaTools::isMultiple())
@@ -370,7 +370,7 @@ class BaseaMediaActions extends aEngineActions
     $this->hasPermissionsForSelect();
     
     $id = $request->getParameter('id');
-    $item = Doctrine::getTable("aMediaItem")->find($id);
+    $item = Doctrine_Core::getTable("aMediaItem")->find($id);
     $this->forward404Unless($item);
     $selection = aMediaTools::getSelection();
     $index = array_search($id, $selection);
@@ -410,7 +410,7 @@ class BaseaMediaActions extends aEngineActions
     {
       $id += 0;
       $this->logMessage(">>>>>ID is $id", "info");
-      $item = Doctrine::getTable("aMediaItem")->find($id);
+      $item = Doctrine_Core::getTable("aMediaItem")->find($id);
       if ($item)
       {
         $selection[] = $item->getId();
@@ -439,7 +439,7 @@ class BaseaMediaActions extends aEngineActions
     // Get all the items in preparation for possible cropping
     if (count($selection))
     {
-      $items = Doctrine::getTable('aMediaItem')->createQuery('m')->whereIn('m.id', $selection)->execute();
+      $items = Doctrine_Core::getTable('aMediaItem')->createQuery('m')->whereIn('m.id', $selection)->execute();
     } else
     {
       $items = array();
@@ -843,7 +843,7 @@ class BaseaMediaActions extends aEngineActions
             $md5 = @md5_file($file['newfile']['tmp_name']);
             if ($md5 !== false)
             {
-              $existing = Doctrine::getTable('aMediaItem')->findDuplicateWithSameOwner($md5);
+              $existing = Doctrine_Core::getTable('aMediaItem')->findDuplicateWithSameOwner($md5);
               if ($existing)
               {
                 /**
@@ -970,7 +970,7 @@ class BaseaMediaActions extends aEngineActions
           $md5 = @md5_file($file->getTempName());
           if ($md5 !== false)
           {
-            $existing = Doctrine::getTable('aMediaItem')->findDuplicateWithSameOwner($md5);
+            $existing = Doctrine_Core::getTable('aMediaItem')->findDuplicateWithSameOwner($md5);
             if ($existing)
             {
               $itemForm->setObject($existing);
@@ -1219,7 +1219,7 @@ class BaseaMediaActions extends aEngineActions
   
     $this->forward404Unless($this->isAdmin());
     $this->form = new aEmbedMediaAccountForm();
-    $this->accounts = Doctrine::getTable('aEmbedMediaAccount')->createQuery('a')->orderBy('a.service ASC, a.username ASC')->execute();
+    $this->accounts = Doctrine_Core::getTable('aEmbedMediaAccount')->createQuery('a')->orderBy('a.service ASC, a.username ASC')->execute();
     return $this->renderTemplate();
   }
 
@@ -1237,7 +1237,7 @@ class BaseaMediaActions extends aEngineActions
     if ($this->form->isValid())
     {
       // Quietly ignore duplicates
-      $existing = Doctrine::getTable('aEmbedMediaAccount')->createQuery('a')->where('a.username = ? AND a.service = ?', array($params['username'], $params['service']))->execute();
+      $existing = Doctrine_Core::getTable('aEmbedMediaAccount')->createQuery('a')->where('a.username = ? AND a.service = ?', array($params['username'], $params['service']))->execute();
       if (!count($existing))
       {
         $this->form->save();
@@ -1255,7 +1255,7 @@ class BaseaMediaActions extends aEngineActions
   {
     $this->forward404Unless($this->isAdmin());
     $which = $request->getParameter('id');
-    $a = Doctrine::getTable('aEmbedMediaAccount')->find($which);
+    $a = Doctrine_Core::getTable('aEmbedMediaAccount')->find($which);
     if ($a)
     {
       $a->delete();

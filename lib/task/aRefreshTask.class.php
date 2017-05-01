@@ -77,7 +77,7 @@ EOF;
     if ($options['allversions'])
     {
       // All versions case is a simpler query since we want to look at every slot
-      $slots = Doctrine::getTable('aSlot')->findAll();
+      $slots = Doctrine_Core::getTable('aSlot')->findAll();
       foreach ($slots as $slot)
       {
         $slot->refreshSlot();

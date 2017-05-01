@@ -49,9 +49,9 @@ class BaseaSlideshowSlotActions extends aSlotActions
    */
   protected function relinkMediaItems($ids)
   {
-    $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids)->andWhere('m.type = "image"');
+    $q = Doctrine_Core::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids)->andWhere('m.type = "image"');
     // Let the query preserve order for us
-    $items = aDoctrine::orderByList($q, $ids)->execute();
+    $items = aDoctrine_Core::orderByList($q, $ids)->execute();
     $this->slot->unlink('MediaItems');
     $links = aArray::getIds($items);
     $this->slot->link('MediaItems', $links);

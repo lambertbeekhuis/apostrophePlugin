@@ -26,7 +26,7 @@ class aEngineCategoriesForm extends aPageForm
     parent::setup();
 
     $this->useFields($this->getUseFields());
-    $this->getWidget('categories_list')->setOption('query', Doctrine::getTable('aCategory')->createQuery()->orderBy('aCategory.name asc'));
+    $this->getWidget('categories_list')->setOption('query', Doctrine_Core::getTable('aCategory')->createQuery()->orderBy('aCategory.name asc'));
     if (sfContext::getInstance()->getUser()->hasCredential('admin'))
     {
       // If we make this a "hidden" field renderHiddenFields will output it, 
@@ -59,7 +59,7 @@ class aEngineCategoriesForm extends aPageForm
     }
     foreach ($addValues as $value)
     {
-      $existing = Doctrine::getTable('aCategory')->findOneBy('name', $value);
+      $existing = Doctrine_Core::getTable('aCategory')->findOneBy('name', $value);
       if ($existing)
       {
         $aCategory = $existing;

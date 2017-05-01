@@ -82,7 +82,7 @@ EOF;
     $this->logSection('toolkit', "After documents");
     foreach ($indexes as $index)
     {
-      $table = Doctrine::getTable($index);
+      $table = Doctrine_Core::getTable($index);
       if ($index === 'aPage')
       {
         $this->logSection('toolkit', "Purging pages");
@@ -93,7 +93,7 @@ EOF;
         // repeat requests if someone starts interrupting this task and trying again, etc.
         $this->query('DELETE FROM a_lucene_update');
         $this->logSection('toolkit', "Rebuilding a_lucene_update");
-        $pages = Doctrine::getTable('aPage')->createQuery('p')->innerJoin('p.Areas a')->execute(array(), Doctrine::HYDRATE_ARRAY);
+        $pages = Doctrine_Core::getTable('aPage')->createQuery('p')->innerJoin('p.Areas a')->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
         $this->logSection('toolkit', "Page metadata fetched, inserting into a_lucene_update");
         foreach ($pages as $page)
         {

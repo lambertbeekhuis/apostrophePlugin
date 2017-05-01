@@ -57,7 +57,7 @@ EOF;
     // PDO connection not so useful, get the doctrine one
     $conn = Doctrine_Manager::connection();
     
-    $accounts = Doctrine::getTable('aEmbedMediaAccount')->findAll();
+    $accounts = Doctrine_Core::getTable('aEmbedMediaAccount')->findAll();
     foreach ($accounts as $a)
     {
       $perPage = 50;
@@ -94,7 +94,7 @@ EOF;
       }
       if (count($serviceUrls))
       {
-        $existingServiceUrls = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.service_url')->andWhereIn('m.service_url', $serviceUrls)->execute(array(), Doctrine::HYDRATE_SINGLE_SCALAR);
+        $existingServiceUrls = Doctrine_Core::getTable('aMediaItem')->createQuery('m')->select('m.service_url')->andWhereIn('m.service_url', $serviceUrls)->execute(array(), Doctrine_Core::HYDRATE_SINGLE_SCALAR);
       }
       else
       {

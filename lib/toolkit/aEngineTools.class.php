@@ -91,7 +91,7 @@ class aEngineTools
   {
     if (!isset(self::$engineCategoryCache[$engineName]))
     {
-      $engines = Doctrine::getTable('aPage')->createQuery()
+      $engines = Doctrine_Core::getTable('aPage')->createQuery()
         ->leftJoin('aPage.Categories Categories')
         ->addWhere('engine = ?', $engineName)
         // Don't match virtual pages

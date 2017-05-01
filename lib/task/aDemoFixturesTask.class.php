@@ -94,7 +94,7 @@ EOF;
     {
       echo("Postprocessing users\n");
     }
-    $users = Doctrine::getTable('sfGuardUser')->findAll();
+    $users = Doctrine_Core::getTable('sfGuardUser')->findAll();
     foreach ($users as $user)
     {
       // If there is a salt, and no password, it's really a hint to turn the cleartext password

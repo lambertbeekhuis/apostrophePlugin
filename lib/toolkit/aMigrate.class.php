@@ -315,7 +315,7 @@ class aMigrate
       $items = $sql->query('SELECT id, slug, format FROM a_media_item WHERE md5 IS NULL');
       foreach ($items as $item)
       {
-        $path = Doctrine::getTable('aMediaItem')->getOriginalPath($item);
+        $path = Doctrine_Core::getTable('aMediaItem')->getOriginalPath($item);
         $md5 = @md5_file($path);
         if ($md5 !== false)
         {

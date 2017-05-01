@@ -57,8 +57,8 @@ EOF;
     // We need a proper environment. This also gives us superadmin privileges
     aTaskTools::signinAsTaskUser($this->createConfiguration($options['application'], $options['env']), $options['connection']);
 
-    $aPageTable = Doctrine::getTable('aPage');
-    $objects = Doctrine::getTable($arguments['model'])->findAll();
+    $aPageTable = Doctrine_Core::getTable('aPage');
+    $objects = Doctrine_Core::getTable($arguments['model'])->findAll();
     foreach ($objects as $object)
     {
       $aPageTable->mirrorForSearch($object);

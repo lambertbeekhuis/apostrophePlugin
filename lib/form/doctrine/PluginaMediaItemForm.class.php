@@ -82,7 +82,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
   {
     $user = sfContext::getInstance()->getUser();
     $admin = $user->hasCredential(aMediaTools::getOption('admin_credential'));
-    return Doctrine::getTable('aCategory')->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $admin)->orderBy('name');
+    return Doctrine_Core::getTable('aCategory')->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $admin)->orderBy('name');
   }
 
   /**
@@ -189,7 +189,7 @@ abstract class PluginaMediaItemForm extends BaseaMediaItemForm
     }
     foreach ($cvalues as $value)
     {
-      $existing = Doctrine::getTable('aCategory')->findOneBy('name', $value);
+      $existing = Doctrine_Core::getTable('aCategory')->findOneBy('name', $value);
       if($existing)
       {
         $aCategory = $existing;

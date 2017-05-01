@@ -58,20 +58,20 @@ away as needed on child pages. There are generous provisions for applying permis
 child pages on an as-needed basis in the user interface.
 ");
   
-    $accesses = Doctrine::getTable('aAccess')->findAll(Doctrine::HYDRATE_ARRAY);
+    $accesses = Doctrine_Core::getTable('aAccess')->findAll(Doctrine_Core::HYDRATE_ARRAY);
     $total = count($accesses);
     $step = 0;
     foreach ($accesses as $a)
     {
       $step++;
       echo("Applying $step of $total...\n");
-      $page = Doctrine::getTable('aPage')->find($a['page_id'], Doctrine::HYDRATE_ARRAY);
+      $page = Doctrine_Core::getTable('aPage')->find($a['page_id'], Doctrine_Core::HYDRATE_ARRAY);
       if (!$page)
       {
         // Don't panic if there's a bad access
         continue;
       }
-      $subpages = Doctrine::getTable('aPage')->createQuery('p')->where('p.lft > ? AND p.rgt < ?', array($page['lft'], $page['rgt']))->execute(array(), Doctrine::HYDRATE_ARRAY);
+      $subpages = Doctrine_Core::getTable('aPage')->createQuery('p')->where('p.lft > ? AND p.rgt < ?', array($page['lft'], $page['rgt']))->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
       foreach ($subpages as $subpage)
       {
         // Doctrine runs out of memory when we make a lot of new objects, so go a little more low-level
@@ -84,20 +84,20 @@ child pages on an as-needed basis in the user interface.
     }
     
     echo("Copying group permissions (most 1.4 sites won't have these)...\n");
-    $accesses = Doctrine::getTable('aGroupAccess')->findAll(Doctrine::HYDRATE_ARRAY);
+    $accesses = Doctrine_Core::getTable('aGroupAccess')->findAll(Doctrine_Core::HYDRATE_ARRAY);
     $total = count($accesses);
     $step = 0;
     foreach ($accesses as $a)
     {
       $step++;
       echo("Applying $step of $total...\n");
-      $page = Doctrine::getTable('aPage')->find($a['page_id'], Doctrine::HYDRATE_ARRAY);
+      $page = Doctrine_Core::getTable('aPage')->find($a['page_id'], Doctrine_Core::HYDRATE_ARRAY);
       if (!$page)
       {
         // Don't panic if there's a bad access
         continue;
       }
-      $subpages = Doctrine::getTable('aPage')->createQuery('p')->where('p.lft > ? AND p.rgt < ?', array($page['lft'], $page['rgt']))->execute(array(), Doctrine::HYDRATE_ARRAY);
+      $subpages = Doctrine_Core::getTable('aPage')->createQuery('p')->where('p.lft > ? AND p.rgt < ?', array($page['lft'], $page['rgt']))->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
       foreach ($subpages as $subpage)
       {
         // Doctrine runs out of memory when we make a lot of new objects, so go a little more low-level

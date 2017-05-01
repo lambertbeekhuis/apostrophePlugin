@@ -64,7 +64,7 @@ class PluginaCategoryTable extends Doctrine_Table
    */
   public static function getCategoriesForPage($page)
   {
-    return Doctrine::getTable('aCategory')->createQuery('c')
+    return Doctrine_Core::getTable('aCategory')->createQuery('c')
       ->innerJoin('c.Pages as p')
       ->where('p.id = ?', $page['id'])
       ->orderBy('c.name')
@@ -124,7 +124,7 @@ class PluginaCategoryTable extends Doctrine_Table
       ->execute()->delete();
     }
 
-    Doctrine::getTable($tableClass)->createQuery()
+    Doctrine_Core::getTable($tableClass)->createQuery()
       ->update()
       ->set($category_column, $new_id)
       ->where("$category_column = ?", $old_id)

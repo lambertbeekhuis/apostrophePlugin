@@ -19,8 +19,8 @@ class aDoctrine
    * get back nothing! I get burned by this myself.
    * Example:
    * 
-   * $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids);
-   * $mediaItems = aDoctrine::orderByList($q, $ids)->execute();
+   * $q = Doctrine_Core::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids);
+   * $mediaItems = aDoctrine_Core::orderByList($q, $ids)->execute();
    * @param mixed $query
    * @param mixed $ids
    * @param mixed $modelName

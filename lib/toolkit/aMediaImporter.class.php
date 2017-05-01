@@ -48,7 +48,7 @@ class aMediaImporter
     // It comes back as a mapping of extensions to types, get the types
     $extensions = array_keys($mimeTypes);
     $mimeTypes = array_values($mimeTypes);
-    $table = Doctrine::getTable('aMediaItem');
+    $table = Doctrine_Core::getTable('aMediaItem');
     foreach ($iterator as $sfile)
     {
       if ($sfile->isFile())

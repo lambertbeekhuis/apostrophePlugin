@@ -22,7 +22,7 @@ class BaseaVideoSlotActions extends aSlotActions
     $this->logMessage("====== in aVideoSlotActions::executeEdit", "info");
     $this->editSetup();
 
-    $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
+    $item = Doctrine_Core::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
     if ((!$item) || ($item->type !== 'video'))
     {
       return $this->redirectToPage();

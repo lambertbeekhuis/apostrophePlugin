@@ -27,7 +27,7 @@ class PluginaCategoryGroupTable extends Doctrine_Table
    */
   public function mergeCategory($old_id, $new_id)
   {
-    Doctrine::getTable('aCategory')->mergeCategory($old_id, $new_id, 'aCategoryGroup', 'category_id', true, 'group_id');
+    Doctrine_Core::getTable('aCategory')->mergeCategory($old_id, $new_id, 'aCategoryGroup', 'category_id', true, 'group_id');
   }
 
 }

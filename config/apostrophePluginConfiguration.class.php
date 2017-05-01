@@ -88,7 +88,7 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
   {
     // You must play nice and append to what is already there
     $info = array('class' => 'aMediaItem', 'name' => 'Media');
-    $counts = Doctrine::getTable('aMediaItem')->getCountByCategory();
+    $counts = Doctrine_Core::getTable('aMediaItem')->getCountByCategory();
     $info['counts'] = $counts;
     $results['aMediaItem'] = $info;
     return $results;
@@ -101,9 +101,9 @@ class apostrophePluginConfiguration extends sfPluginConfiguration
   public function listenToMergeCategory($event)
   {
     $parameters = $event->getParameters();
-    Doctrine::getTable('aMediaItemToCategory')->mergeCategory($parameters['old_id'], $parameters['new_id']);
-    Doctrine::getTable('aPageToCategory')->mergeCategory($parameters['old_id'], $parameters['new_id']);
-    Doctrine::getTable('aCategoryUser')->mergeCategory($parameters['old_id'], $parameters['new_id']);
-    Doctrine::getTable('aCategoryGroup')->mergeCategory($parameters['old_id'], $parameters['new_id']);
+    Doctrine_Core::getTable('aMediaItemToCategory')->mergeCategory($parameters['old_id'], $parameters['new_id']);
+    Doctrine_Core::getTable('aPageToCategory')->mergeCategory($parameters['old_id'], $parameters['new_id']);
+    Doctrine_Core::getTable('aCategoryUser')->mergeCategory($parameters['old_id'], $parameters['new_id']);
+    Doctrine_Core::getTable('aCategoryGroup')->mergeCategory($parameters['old_id'], $parameters['new_id']);
   }
 }

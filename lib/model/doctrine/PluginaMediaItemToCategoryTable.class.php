@@ -27,7 +27,7 @@ class PluginaMediaItemToCategoryTable extends Doctrine_Table
    */
   public function mergeCategory($old_id, $new_id)
   {
-    Doctrine::getTable('aCategory')->mergeCategory($old_id, $new_id, 'aMediaItemToCategory', 'category_id', true, 'media_item_id');
+    Doctrine_Core::getTable('aCategory')->mergeCategory($old_id, $new_id, 'aMediaItemToCategory', 'category_id', true, 'media_item_id');
   }
 
 }

@@ -597,7 +597,7 @@ class BaseaMediaTools
     else
     {
       $id = $actions->getRequestParameter('id');
-      $item = Doctrine::getTable('aMediaItem')->find($id);
+      $item = Doctrine_Core::getTable('aMediaItem')->find($id);
     }  
     $actions->forward404Unless($item);
     return $item;

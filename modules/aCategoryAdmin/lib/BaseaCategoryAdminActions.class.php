@@ -52,7 +52,7 @@ abstract class BaseaCategoryAdminActions extends autoaCategoryAdminActions
       if (!($this->form->getObject()->isNew()) && $error && $error->getValidator() instanceof sfValidatorDoctrineUnique)
       {
         $taintedValues = $this->form->getTaintedValues();
-        $newCategory = Doctrine::getTable('aCategory')->findOneBy('name', $taintedValues['name']);
+        $newCategory = Doctrine_Core::getTable('aCategory')->findOneBy('name', $taintedValues['name']);
         $conn = Doctrine_Manager::connection();
         try{
           $conn->beginTransaction();

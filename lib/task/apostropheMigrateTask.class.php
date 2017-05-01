@@ -123,7 +123,7 @@ but why take chances with your data?
     // If they haven't customized it make sure it exists. Some pkContextCMS sites might not have it
     if ($viewLocked === 'view_locked')
     {
-      $permission = Doctrine::getTable('sfGuardPermission')->findOneByName($viewLocked);
+      $permission = Doctrine_Core::getTable('sfGuardPermission')->findOneByName($viewLocked);
       if (!$permission)
       {
         $permission = new sfGuardPermission();
@@ -132,7 +132,7 @@ but why take chances with your data?
         $groups = array('editor', 'admin');
         foreach ($groups as $group)
         {
-          $g = Doctrine::getTable('sfGuardGroup')->findOneByName($group);
+          $g = Doctrine_Core::getTable('sfGuardGroup')->findOneByName($group);
           if ($g)
           {
             $pg = new sfGuardGroupPermission();
@@ -347,7 +347,7 @@ but why take chances with your data?
 
     // NO COLUMN OR TABLE ADDITIONS BELOW HERE - DOCTRINE API IN USE
 
-    $mediaEnginePage = Doctrine::getTable('aPage')->createQuery('p')->where('p.admin IS TRUE AND p.engine = "aMedia"')->fetchOne();
+    $mediaEnginePage = Doctrine_Core::getTable('aPage')->createQuery('p')->where('p.admin IS TRUE AND p.engine = "aMedia"')->fetchOne();
     if (!$mediaEnginePage)
     {
       $mediaEnginePage = new aPage();

@@ -63,7 +63,7 @@ EOF;
     $count = 0;
     foreach ($indexes as $index)
     {
-      $table = Doctrine::getTable($index);
+      $table = Doctrine_Core::getTable($index);
       if ($options['verbose'])
       {
         echo("Optimizing $index\n");

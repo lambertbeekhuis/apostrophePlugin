@@ -33,7 +33,7 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
    */
   public function addCounts($event, $query)
   {
-    Doctrine::getTable('Tag')->queryTagsWithCountsByModel($this->models, $query);
+    Doctrine_Core::getTable('Tag')->queryTagsWithCountsByModel($this->models, $query);
     
     return $query;
   }
@@ -45,7 +45,7 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
   protected function buildQuery()
   {
     $tableMethod = $this->configuration->getTableMethod();
-    $query = Doctrine::getTable('Tag')->createQuery('r');
+    $query = Doctrine_Core::getTable('Tag')->createQuery('r');
 
     $event = $this->dispatcher->filter(new sfEvent($this, 'admin.build_query'), $query);
     $this->addSortQuery($query);
@@ -124,13 +124,13 @@ abstract class BaseaTagAdminActions extends autoaTagAdminActions
     $this->getUser()->setFlash('error', null);
 
     $taintedValues = $this->form->getTaintedValues();
-    $mergeTo = Doctrine::getTable('Tag')->createQuery()
+    $mergeTo = Doctrine_Core::getTable('Tag')->createQuery()
       ->where('id <> ? AND name = ?', array($this->tag->id, $taintedValues['name']))
       ->fetchOne();
 
     if($mergeTo)
     {
-      Doctrine::getTable('Tag')->mergeTags($this->tag->id, $mergeTo->id);
+      Doctrine_Core::getTable('Tag')->mergeTags($this->tag->id, $mergeTo->id);
       $this->tag->delete();
 
       $this->getUser()->setFlash('notice', $this->__(sprintf('Tag "%s" merged into tag "%s."', $this->tag->name, $mergeTo->name)));

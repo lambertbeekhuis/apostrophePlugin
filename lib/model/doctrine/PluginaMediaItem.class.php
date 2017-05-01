@@ -742,7 +742,7 @@ abstract class PluginaMediaItem extends BaseaMediaItem
   public function getAdminCategories()
   {
     $reserved = array();
-    $existing = Doctrine::getTable('aCategory')->createQuery('c')->select('c.*')->innerJoin('c.MediaItems mi WITH mi.id = ?', $this->id)->execute();
+    $existing = Doctrine_Core::getTable('aCategory')->createQuery('c')->select('c.*')->innerJoin('c.MediaItems mi WITH mi.id = ?', $this->id)->execute();
     $categoriesForUser = aCategoryTable::getInstance()->addCategoriesForUser(sfContext::getInstance()->getUser()->getGuardUser(), $this->isAdmin())->execute();
     $ours = array_flip(aArray::getIds($categoriesForUser));
     foreach ($existing as $category)

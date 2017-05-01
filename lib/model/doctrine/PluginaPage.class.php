@@ -890,7 +890,7 @@ abstract class PluginaPage extends BaseaPage
       // This makes the accordion more useful when you are not yet under its root
       // I don't have a handy way to do this without cache issues in the table class yet so...
       // This is not a proper info structure but it will work for this job
-      $rootInfo = Doctrine::getTable('aPage')->createQuery('p')->where('slug = ?', array($root))->execute(array(), Doctrine::HYDRATE_ARRAY);
+      $rootInfo = Doctrine_Core::getTable('aPage')->createQuery('p')->where('slug = ?', array($root))->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
       if (!count($rootInfo))
       {
         throw new sfException("Root page of accordion does not exist!");
@@ -1446,11 +1446,11 @@ abstract class PluginaPage extends BaseaPage
       
       $cultures = array();
 
-      $page = Doctrine::getTable('aPage')
+      $page = Doctrine_Core::getTable('aPage')
         ->createQuery('p')
         ->where('p.id = ?', $this->id)
         ->leftJoin('p.Areas a')
-        ->fetchOne(array(), Doctrine::HYDRATE_ARRAY);
+        ->fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
  
       foreach ($page['Areas'] as $area)
       {
@@ -1549,7 +1549,7 @@ abstract class PluginaPage extends BaseaPage
     $withParameters = array();
     if ($candidateGroup)
     {
-      $candidateGroup = Doctrine::getTable('sfGuardGroup')->findOneByName($candidateGroup);
+      $candidateGroup = Doctrine_Core::getTable('sfGuardGroup')->findOneByName($candidateGroup);
       if (!$candidateGroup)
       {
         throw new Exception("Candidate group for $privilege was set but does not exist");
@@ -1559,7 +1559,7 @@ abstract class PluginaPage extends BaseaPage
     }
     if ($sufficientGroup)
     {
-      $sufficientGroup = Doctrine::getTable('sfGuardGroup')->findOneByName($sufficientGroup);
+      $sufficientGroup = Doctrine_Core::getTable('sfGuardGroup')->findOneByName($sufficientGroup);
       if (!$sufficientGroup)
       {
         throw new Exception("Sufficient group for $privilege was set but does not exist");
@@ -2006,7 +2006,7 @@ abstract class PluginaPage extends BaseaPage
     $categories = $this->getCategories();
     if (!count($categories))
     {
-      $categories = Doctrine::getTable('aCategory')->findAll();
+      $categories = Doctrine_Core::getTable('aCategory')->findAll();
     }
     $ids = aArray::listToHashById($categories);
     foreach ($counts as $cclass => $countsInfo)
@@ -2074,7 +2074,7 @@ abstract class PluginaPage extends BaseaPage
     }
     $this->slug = $newPath;
     $this->save();
-    Doctrine::getTable('aRedirect')->update_redirect($path, $this);
+    Doctrine_Core::getTable('aRedirect')->update_redirect($path, $this);
     $children = $this->getChildren();
     foreach ($children as $child)
     {
@@ -2106,7 +2106,7 @@ abstract class PluginaPage extends BaseaPage
     }
     if ($this->slug !== $newSlug)
     {
-      Doctrine::getTable('aRedirect')->update_redirect($this->slug, $this);
+      Doctrine_Core::getTable('aRedirect')->update_redirect($this->slug, $this);
       $this->slug = $newSlug;
       $this->save();
       $children = $this->getChildren();
@@ -2160,7 +2160,7 @@ abstract class PluginaPage extends BaseaPage
     if ($slug !== $newSlug)
     {
       $this->slug = $newSlug;
-      Doctrine::getTable('aRedirect')->update_redirect($slug, $this);
+      Doctrine_Core::getTable('aRedirect')->update_redirect($slug, $this);
       $this->save();
       $children = $this->getChildren();
       foreach ($children as $child)
@@ -2217,7 +2217,7 @@ abstract class PluginaPage extends BaseaPage
     $uncropped = isset($options['uncropped']) ? $options['uncropped'] : null;
     if ($uncropped)
     {
-      $aMediaItems = Doctrine::getTable('aMediaItem')->getCropOriginals($aMediaItems);
+      $aMediaItems = Doctrine_Core::getTable('aMediaItem')->getCropOriginals($aMediaItems);
     }
     return $aMediaItems;
   }

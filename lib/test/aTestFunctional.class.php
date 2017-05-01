@@ -58,7 +58,7 @@ class aTestFunctional extends sfTestFunctional
       $path = sfConfig::get('sf_test_dir').'/fixtures';
     }
     
-    Doctrine::loadData($path);
+    Doctrine_Core::loadData($path);
  
     return $this;
   }

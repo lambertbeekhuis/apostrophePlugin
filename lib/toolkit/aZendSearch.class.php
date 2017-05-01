@@ -179,7 +179,7 @@ class aZendSearch
       $alias = $q->getRootAlias();
       // Call addSelect so that we don't trash existing queries.
       $q->addSelect($alias.'.*');
-      aDoctrine::orderByList($q, $results);
+      aDoctrine_Core::orderByList($q, $results);
       $q->whereIn($alias.'.id', $results);
       return $q;
     }
@@ -232,12 +232,12 @@ class aZendSearch
     {
       $alias = $q->getRootAlias();
       // Contrary to Jobeet the above is NOT enough, the results will
-      // not be in Lucene result order. Use aDoctrine::orderByList to fix
+      // not be in Lucene result order. Use aDoctrine_Core::orderByList to fix
       // that up in a portable way with a SQL92-compatible CASE statement.
 
       // Call addSelect so that we don't trash existing queries.
       $q->addSelect($alias.'.*');
-      aDoctrine::orderByList($q, $results);
+      aDoctrine_Core::orderByList($q, $results);
       $q->whereIn($alias.'.id', $results);
     }
     else

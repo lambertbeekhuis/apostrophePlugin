@@ -21,7 +21,7 @@ class BaseaFileSlotActions extends aSlotActions
     
     $this->logMessage("====== in aFileSlotActions::executeEdit", "info");
     $this->editSetup();
-    $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
+    $item = Doctrine_Core::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
     if ((!$item) || (!$item->getDownloadable()))
     {
       return $this->redirectToPage();

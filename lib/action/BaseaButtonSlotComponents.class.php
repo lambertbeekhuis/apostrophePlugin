@@ -20,7 +20,7 @@ class BaseaButtonSlotComponents extends aSlotComponents
       $value = $this->slot->getArrayValue();
       if (isset($value['image']))
       {
-        $mediaItem = Doctrine::getTable('aMediaItem')->find($value['image']->id);
+        $mediaItem = Doctrine_Core::getTable('aMediaItem')->find($value['image']->id);
         if ($mediaItem)
         {
           $this->slot->MediaItems[] = $mediaItem;

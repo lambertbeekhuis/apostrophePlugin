@@ -79,7 +79,7 @@ class PluginaPageTable extends Doctrine_Table
     {
       $pageInfo = $query->
         andWhere('p.slug = ?', $slug)->
-        fetchOne(array(), Doctrine::HYDRATE_ARRAY);
+        fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
       if ($pageInfo)
       {
         $page = new aPage();
@@ -210,7 +210,7 @@ class PluginaPageTable extends Doctrine_Table
   {
     if(is_null($query))
     {
-      $query = Doctrine::getTable('aPage')->createQuery('p');
+      $query = Doctrine_Core::getTable('aPage')->createQuery('p');
     }
     if (is_null($culture))
     {
@@ -299,7 +299,7 @@ class PluginaPageTable extends Doctrine_Table
   static public function treeSlotOn($slot)
   {
     $query = aPageTable::queryWithSlot($slot);
-    aPageTable::$treeObject = Doctrine::getTable('aPage')->getTree();
+    aPageTable::$treeObject = Doctrine_Core::getTable('aPage')->getTree();
     // I'm not crazy about how I have to set the base query and then
     // reset it, instead of simply passing it to getChildren. A
     // Doctrine oddity
@@ -329,7 +329,7 @@ class PluginaPageTable extends Doctrine_Table
   static public function treeSlotsOn()
   {
     $query = aPageTable::queryWithSlots();
-    aPageTable::$treeObject = Doctrine::getTable('aPage')->getTree();
+    aPageTable::$treeObject = Doctrine_Core::getTable('aPage')->getTree();
     // I'm not crazy about how I have to set the base query and then
     // reset it, instead of simply passing it to getChildren. A
     // Doctrine oddity
@@ -370,7 +370,7 @@ class PluginaPageTable extends Doctrine_Table
   public function rebuildLuceneIndex()
   {
     aZendSearch::purgeLuceneIndex($this);
-    $pages = $this->createQuery('p')->innerJoin('p.Areas a')->execute(array(), Doctrine::HYDRATE_ARRAY);
+    $pages = $this->createQuery('p')->innerJoin('p.Areas a')->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
     foreach ($pages as $page)
     {
       $cultures = array();
@@ -462,7 +462,7 @@ class PluginaPageTable extends Doctrine_Table
     $info = aPageTable::getMatchingEnginePageInfo($url, $remainder);
     if ($info)
     {
-      return Doctrine::getTable('aPageTable')->find($info['id']);
+      return Doctrine_Core::getTable('aPageTable')->find($info['id']);
     }
     return null;
   }
@@ -577,7 +577,7 @@ class PluginaPageTable extends Doctrine_Table
       andWhere('p.engine IS NOT NULL')->
       orderBy('len desc')->
       limit(1)->
-      fetchOne(array(), Doctrine::HYDRATE_ARRAY);
+      fetchOne(array(), Doctrine_Core::HYDRATE_ARRAY);
     aPageTable::$engineCachePageInfo = $pageInfo;
     aPageTable::$engineCacheUrl = $url;
     aPageTable::$engineCacheRemainder = false;
@@ -657,7 +657,7 @@ class PluginaPageTable extends Doctrine_Table
    */
   static public function checkPrivilege($privilege, $pageOrInfo, $user = false)
   {
-    $table = Doctrine::getTable('aPage');
+    $table = Doctrine_Core::getTable('aPage');
     return $table->checkUserPrivilege($privilege, $pageOrInfo, $user);
   }
 
@@ -876,7 +876,7 @@ class PluginaPageTable extends Doctrine_Table
             select('a.*')->from('aAccess a')->innerJoin('a.Page p')->
             where("p.id = ? AND a.user_id = ? AND a.privilege = ?", array($pageOrInfo['id'], $user_id, $privilege))->
             limit(1)->
-            execute(array(), Doctrine::HYDRATE_ARRAY);
+            execute(array(), Doctrine_Core::HYDRATE_ARRAY);
           if (count($accesses) > 0)
           {
             $result = true;
@@ -907,7 +907,7 @@ class PluginaPageTable extends Doctrine_Table
           where("p.id = ? AND a.privilege = ?", array($pageOrInfo['id'], $privilege))->
           andWhereIn("a.group_id", $groupIds)->
           limit(1)->
-          execute(array(), Doctrine::HYDRATE_ARRAY);
+          execute(array(), Doctrine_Core::HYDRATE_ARRAY);
         if (count($accesses) > 0)
         {
           $result = true;
@@ -931,11 +931,11 @@ class PluginaPageTable extends Doctrine_Table
     $sufficientGroup = sfConfig::get('app_a_edit_candidate_group', false);
     if (!$candidateGroup)
     {
-      return Doctrine::getTable('sfGuardUser')->createQuery('u')->orderBy('u.username ASC')->fetchArray();
+      return Doctrine_Core::getTable('sfGuardUser')->createQuery('u')->orderBy('u.username ASC')->fetchArray();
     }
     else
     {
-      return Doctrine::getTable('sfGuardUser')->createQuery('u')->innerJoin('u.Groups g WITH g.name = ?', $candidateGroup)->orderBy('u.username ASC')->fetchArray();
+      return Doctrine_Core::getTable('sfGuardUser')->createQuery('u')->innerJoin('u.Groups g WITH g.name = ?', $candidateGroup)->orderBy('u.username ASC')->fetchArray();
     }
   }
 
@@ -946,7 +946,7 @@ class PluginaPageTable extends Doctrine_Table
   public function getEditorCandidateGroups()
   {
     $p = sfConfig::get('app_a_group_editor_permission', 'editor');
-    return Doctrine::getTable('sfGuardGroup')->createQuery('g')->innerJoin('g.Permissions p WITH p.name = ?', $p)->orderBy('g.name ASC')->fetchArray();
+    return Doctrine_Core::getTable('sfGuardGroup')->createQuery('g')->innerJoin('g.Permissions p WITH p.name = ?', $p)->orderBy('g.name ASC')->fetchArray();
   }
 
   /**
@@ -961,7 +961,7 @@ class PluginaPageTable extends Doctrine_Table
   {
     $sufficientCredentials = sfConfig::get('app_a_view_locked_sufficient_credentials', 'view_locked');
 
-    $q = Doctrine::getTable('sfGuardUser')->createQuery('u');
+    $q = Doctrine_Core::getTable('sfGuardUser')->createQuery('u');
     if ($sufficientCredentials)
     {
       $q->leftJoin('u.Groups g')->leftJoin('g.Permissions gp WITH gp.name = ?', $sufficientCredentials);
@@ -979,7 +979,7 @@ class PluginaPageTable extends Doctrine_Table
   {
     // All groups are fair game to receive view permissions
 
-    return Doctrine::getTable('sfGuardGroup')->createQuery('g')->orderBy('g.name ASC')->fetchArray();
+    return Doctrine_Core::getTable('sfGuardGroup')->createQuery('g')->orderBy('g.name ASC')->fetchArray();
   }
 
   /**
@@ -990,7 +990,7 @@ class PluginaPageTable extends Doctrine_Table
    */
   public function getPrivilegesInfoForPageId($id)
   {
-    $current = Doctrine::getTable('aPage')->createQuery('p')->where('p.id = ?', $id)->innerJoin('p.Accesses a')->innerJoin('a.User u')->orderBy('u.username ASC, a.privilege ASC')->fetchArray();
+    $current = Doctrine_Core::getTable('aPage')->createQuery('p')->where('p.id = ?', $id)->innerJoin('p.Accesses a')->innerJoin('a.User u')->orderBy('u.username ASC, a.privilege ASC')->fetchArray();
     $info = array();
     // There will be only one page returned but it's arranged as an array
     foreach ($current as $page)
@@ -1015,7 +1015,7 @@ class PluginaPageTable extends Doctrine_Table
    */
   public function getGroupPrivilegesInfoForPageId($id)
   {
-    $current = Doctrine::getTable('aPage')->createQuery('p')->where('p.id = ?', $id)->innerJoin('p.GroupAccesses a')->innerJoin('a.Group g')->orderBy('g.name ASC, a.privilege ASC')->fetchArray();
+    $current = Doctrine_Core::getTable('aPage')->createQuery('p')->where('p.id = ?', $id)->innerJoin('p.GroupAccesses a')->innerJoin('a.Group g')->orderBy('g.name ASC, a.privilege ASC')->fetchArray();
     $info = array();
     // There will be only one page returned but it's arranged as an array
     foreach ($current as $page)

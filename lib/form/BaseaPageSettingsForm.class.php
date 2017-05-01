@@ -320,7 +320,7 @@ class BaseaPageSettingsForm extends aPageForm
   protected function getIndividualPermissions($forceParent = false)
   {
     $relativeId = ($this->getObject()->isNew() || $forceParent) ? $this->parent->id : $this->getObject()->id;
-    return Doctrine::getTable('aPage')->getPrivilegesInfoForPageId($relativeId);
+    return Doctrine_Core::getTable('aPage')->getPrivilegesInfoForPageId($relativeId);
   }
 
   /**
@@ -330,7 +330,7 @@ class BaseaPageSettingsForm extends aPageForm
    */
   protected function getEditIndividualsJSON($forceParent = false)
   {
-    $candidates = Doctrine::getTable('aPage')->getEditorCandidates();
+    $candidates = Doctrine_Core::getTable('aPage')->getEditorCandidates();
     $infos = $this->getIndividualPermissions($forceParent);
     $jinfos = array();
     foreach ($candidates as $candidate)
@@ -359,7 +359,7 @@ class BaseaPageSettingsForm extends aPageForm
   protected function getGroupPermissions($forceParent = false)
   {
     $relativeId = ($this->getObject()->isNew() || $forceParent) ? $this->parent->id : $this->getObject()->id;
-    return Doctrine::getTable('aPage')->getGroupPrivilegesInfoForPageId($relativeId);
+    return Doctrine_Core::getTable('aPage')->getGroupPrivilegesInfoForPageId($relativeId);
   }
 
   /**
@@ -369,7 +369,7 @@ class BaseaPageSettingsForm extends aPageForm
    */
   protected function getEditGroupsJSON($forceParent = false)
   {
-    $candidates = Doctrine::getTable('aPage')->getEditorCandidateGroups();
+    $candidates = Doctrine_Core::getTable('aPage')->getEditorCandidateGroups();
     $infos = $this->getGroupPermissions($forceParent);
     $jinfos = array();
     foreach ($candidates as $candidate)
@@ -403,7 +403,7 @@ class BaseaPageSettingsForm extends aPageForm
     {
       throw new sfValidatorError($validator, 'Bad permissions JSON');
     }
-    $candidates = Doctrine::getTable('aPage')->getEditorCandidates();
+    $candidates = Doctrine_Core::getTable('aPage')->getEditorCandidates();
     $candidates = aArray::listToHashById($candidates);
     foreach ($values as $info)
     {
@@ -428,7 +428,7 @@ class BaseaPageSettingsForm extends aPageForm
     {
       throw new sfValidatorError($validator, 'Bad permissions JSON');
     }
-    $candidates = Doctrine::getTable('aPage')->getEditorCandidateGroups();
+    $candidates = Doctrine_Core::getTable('aPage')->getEditorCandidateGroups();
     $candidates = aArray::listToHashById($candidates);
     foreach ($values as $info)
     {
@@ -447,7 +447,7 @@ class BaseaPageSettingsForm extends aPageForm
    */
   protected function getViewIndividualsJSON($forceParent = false)
   {
-    $candidates = Doctrine::getTable('aPage')->getViewCandidates();
+    $candidates = Doctrine_Core::getTable('aPage')->getViewCandidates();
     $infos = $this->getIndividualPermissions($forceParent);
     $jinfos = array();
     foreach ($candidates as $candidate)
@@ -485,7 +485,7 @@ class BaseaPageSettingsForm extends aPageForm
    */
   protected function getViewGroupsJSON($forceParent = false)
   {
-    $candidates = Doctrine::getTable('aPage')->getViewCandidateGroups();
+    $candidates = Doctrine_Core::getTable('aPage')->getViewCandidateGroups();
     $infos = $this->getGroupPermissions($forceParent);
     $jinfos = array();
     // Virtual group for Symfony 1.4-style "everyone who is cool" privilege based on the view_locked permission
@@ -530,7 +530,7 @@ class BaseaPageSettingsForm extends aPageForm
     {
       throw new sfValidatorError($validator, 'Bad permissions JSON');
     }
-    $candidates = Doctrine::getTable('aPage')->getViewCandidates();
+    $candidates = Doctrine_Core::getTable('aPage')->getViewCandidates();
     $candidates = aArray::listToHashById($candidates);
     foreach ($values as $info)
     {
@@ -555,7 +555,7 @@ class BaseaPageSettingsForm extends aPageForm
     {
       throw new sfValidatorError($validator, 'Bad permissions JSON');
     }
-    $candidates = Doctrine::getTable('aPage')->getViewCandidateGroups();
+    $candidates = Doctrine_Core::getTable('aPage')->getViewCandidateGroups();
     $candidates = aArray::listToHashById($candidates);
     foreach ($values as $info)
     {
@@ -604,7 +604,7 @@ class BaseaPageSettingsForm extends aPageForm
         {
           break;
         }
-        $existing = Doctrine::getTable('aPage')->findOneBySlug($values['slug']);
+        $existing = Doctrine_Core::getTable('aPage')->findOneBySlug($values['slug']);
         if (!$existing)
         {
           break;
@@ -624,7 +624,7 @@ class BaseaPageSettingsForm extends aPageForm
     // Check for cascading operations
     if ($this->getValue('cascade_archived'))
     {
-      $q = Doctrine::getTable('aPage')->createQuery()
+      $q = Doctrine_Core::getTable('aPage')->createQuery()
         ->update()
         ->where('lft > ? and rgt < ?', array($object->getLft(), $object->getRgt()));
       if($this->getValue('cascade_archived'))
@@ -655,7 +655,7 @@ class BaseaPageSettingsForm extends aPageForm
     // not already deliberately different
     if ($object->slug !== $oldSlug)
     {
-      Doctrine::getTable('aRedirect')->update_redirect($oldSlug, $object);
+      Doctrine_Core::getTable('aRedirect')->update_redirect($oldSlug, $object);
       $children = $object->getChildren();
       foreach ($children as $child)
       {
@@ -724,7 +724,7 @@ class BaseaPageSettingsForm extends aPageForm
       // Check for cascading operations
       if ($this->getValue('cascade_archived'))
       {
-        $q = Doctrine::getTable('aPage')->createQuery()
+        $q = Doctrine_Core::getTable('aPage')->createQuery()
           ->update()
           ->where('lft > ? and rgt < ?', array($object->getLft(), $object->getRgt()));
         $q->set('archived', '?', $object->getArchived());
@@ -750,7 +750,7 @@ class BaseaPageSettingsForm extends aPageForm
         }
         if ($this->getValue('view_options_apply_to_subpages'))
         {
-          $q = Doctrine::getTable('aPage')->createQuery()
+          $q = Doctrine_Core::getTable('aPage')->createQuery()
             ->update()
             ->where('lft > ? and rgt < ?', array($object->getLft(), $object->getRgt()));
           $q->set('view_admin_lock', '?', $object->view_admin_lock);
@@ -867,7 +867,7 @@ class BaseaPageSettingsForm extends aPageForm
     }
     $values = json_decode($value, true);
 
-    $t = Doctrine::getTable('aPage');
+    $t = Doctrine_Core::getTable('aPage');
     if ($object->id)
     {
       $this->clearAccessForPrivilege($object->id, 'edit');
@@ -906,7 +906,7 @@ class BaseaPageSettingsForm extends aPageForm
     }
     $values = json_decode($value, true);
 
-    $t = Doctrine::getTable('aPage');
+    $t = Doctrine_Core::getTable('aPage');
     if ($object->id)
     {
       $this->clearAccessForPrivilege($object->id, 'view_custom');
@@ -964,7 +964,7 @@ class BaseaPageSettingsForm extends aPageForm
 
     $values = json_decode($value, true);
 
-    $t = Doctrine::getTable('aPage');
+    $t = Doctrine_Core::getTable('aPage');
     if ($object->id)
     {
       $this->clearGroupAccessForPrivilege($object->id, 'edit');
@@ -1009,7 +1009,7 @@ class BaseaPageSettingsForm extends aPageForm
 
     $values = json_decode($value, true);
 
-    $t = Doctrine::getTable('aPage');
+    $t = Doctrine_Core::getTable('aPage');
     if ($object->id)
     {
       $this->clearGroupAccessForPrivilege($object->id, 'view_custom');
@@ -1041,7 +1041,7 @@ class BaseaPageSettingsForm extends aPageForm
     $ids = array();
     if ($applyToSubpages)
     {
-      $results = Doctrine::getTable('aPage')->createQuery('p')->where('p.lft >= ? AND p.rgt <= ?', array($page->lft, $page->rgt))->select('p.id')->execute(array(), Doctrine::HYDRATE_SCALAR);
+      $results = Doctrine_Core::getTable('aPage')->createQuery('p')->where('p.lft >= ? AND p.rgt <= ?', array($page->lft, $page->rgt))->select('p.id')->execute(array(), Doctrine_Core::HYDRATE_SCALAR);
       foreach ($results as $result)
       {
         $ids[] = $result['p_id'];
@@ -1084,7 +1084,7 @@ class BaseaPageSettingsForm extends aPageForm
     $ids = array();
     if ($applyToSubpages)
     {
-      $results = Doctrine::getTable('aPage')->createQuery('p')->where('p.lft >= ? AND p.rgt <= ?', array($page->lft, $page->rgt))->select('p.id')->execute(array(), Doctrine::HYDRATE_SCALAR);
+      $results = Doctrine_Core::getTable('aPage')->createQuery('p')->where('p.lft >= ? AND p.rgt <= ?', array($page->lft, $page->rgt))->select('p.id')->execute(array(), Doctrine_Core::HYDRATE_SCALAR);
       foreach ($results as $result)
       {
         $ids[] = $result['p_id'];

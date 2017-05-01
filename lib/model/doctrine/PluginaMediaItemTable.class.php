@@ -116,7 +116,7 @@ class PluginaMediaItemTable extends Doctrine_Table
       select('m.*')->
       from('aMediaItem m')->
       whereIn("m.id", $ids);
-    aDoctrine::orderByList($q, $ids);
+    aDoctrine_Core::orderByList($q, $ids);
     return $q->execute();
   }
 
@@ -157,7 +157,7 @@ class PluginaMediaItemTable extends Doctrine_Table
     if (isset($params['ids']))
     {
       $query->select('aMediaItem.*, c.*');
-      aDoctrine::orderByList($query, $params['ids']);
+      aDoctrine_Core::orderByList($query, $params['ids']);
       $query->andWhereIn("aMediaItem.id", $params['ids']);
     }
     // New: at least one of the specified tags must be present. This is kind of a pain to check for because
@@ -207,11 +207,11 @@ class PluginaMediaItemTable extends Doctrine_Table
     }
     if (isset($params['search']))
     {
-      $query = Doctrine::getTable('aMediaItem')->addSearchQuery($query, $params['search']);
+      $query = Doctrine_Core::getTable('aMediaItem')->addSearchQuery($query, $params['search']);
     }
     elseif (isset($params['ids']))
     {
-      // orderBy added by aDoctrine::orderByIds
+      // orderBy added by aDoctrine_Core::orderByIds
     }
     else
     {
@@ -272,7 +272,7 @@ class PluginaMediaItemTable extends Doctrine_Table
   /**
    * Retrieves media items matching the supplied array of ids, in the same order as the ids
    * (a simple whereIn does not do this). We must use an explicit select when using
-   * aDoctrine::orderByList.
+   * aDoctrine_Core::orderByList.
    * @param mixed $ids
    * @return mixed
    */
@@ -282,11 +282,11 @@ class PluginaMediaItemTable extends Doctrine_Table
     {
       // Doctrine doesn't generate any clause at all for WHERE IN if an array if false. This is a bug, but
       // it doesn't seem to be getting fixed at the Doctrine level
-      return Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->where('1 = 0');
+      return Doctrine_Core::getTable('aMediaItem')->createQuery('m')->select('m.*')->where('1 = 0');
     }
-    $q = Doctrine::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids);
+    $q = Doctrine_Core::getTable('aMediaItem')->createQuery('m')->select('m.*')->whereIn('m.id', $ids);
     // Don't forget to put them in order!
-    return aDoctrine::orderByList($q, $ids)->execute();
+    return aDoctrine_Core::orderByList($q, $ids)->execute();
   }
 
   /**
@@ -295,7 +295,7 @@ class PluginaMediaItemTable extends Doctrine_Table
    */
   public function getCountByCategory()
   {
-    $raw = Doctrine::getTable('aCategory')->createQuery('c')->innerJoin('c.aMediaItemToCategory mtc')->select('c.name, c.slug,  count(mtc.media_item_id) as num')->groupBy('mtc.category_id')->orderBy('c.name ASC')->execute(array(), Doctrine::HYDRATE_ARRAY);
+    $raw = Doctrine_Core::getTable('aCategory')->createQuery('c')->innerJoin('c.aMediaItemToCategory mtc')->select('c.name, c.slug,  count(mtc.media_item_id) as num')->groupBy('mtc.category_id')->orderBy('c.name ASC')->execute(array(), Doctrine_Core::HYDRATE_ARRAY);
     $results = array();
     foreach ($raw as $info)
     {

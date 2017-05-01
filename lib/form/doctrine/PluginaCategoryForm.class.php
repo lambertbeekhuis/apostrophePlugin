@@ -29,7 +29,7 @@ abstract class PluginaCategoryForm extends BaseaCategoryForm
   {
     parent::setup();    
     $this->useFields($this->getUseFields());
-    $q = Doctrine::getTable('sfGuardUser')->createQuery();
+    $q = Doctrine_Core::getTable('sfGuardUser')->createQuery();
     // You must be a member of the editor group to potentially post in a category.
     // Listing all users produces an unmanageable dropdown
     $candidateGroup = sfConfig::get('app_a_edit_candidate_group', false);

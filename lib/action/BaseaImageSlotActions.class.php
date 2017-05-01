@@ -22,7 +22,7 @@ class BaseaImageSlotActions extends aSlotActions
     $this->logMessage("====== in aImageSlotActions::executeEdit", "info");
     $this->editSetup();
 
-    $item = Doctrine::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
+    $item = Doctrine_Core::getTable('aMediaItem')->find($request->getParameter('aMediaId'));
     $this->slot->unlink('MediaItems');
     if ($item && ($item->type === 'image'))
     {

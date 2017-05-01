@@ -43,7 +43,7 @@ class BaseaGroupAdminForm extends sfGuardGroupForm
       $permissionNames = array(sfConfig::get('app_a_group_editor_permission', 'editor'), aMediaTools::getOption('upload_credential'), 'blog_author', 'view_locked');
       foreach ($permissionNames as $permissionName)
       {
-        $permission = Doctrine::getTable('sfGuardPermission')->findOneByName($permissionName);
+        $permission = Doctrine_Core::getTable('sfGuardPermission')->findOneByName($permissionName);
         if ($permission)
         {
           $permissionIds[] = $permission->id;

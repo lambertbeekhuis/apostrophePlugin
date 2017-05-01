@@ -52,11 +52,11 @@ class aTaskTools
    */
   static public function getTaskUser()
   {
-    $user = Doctrine::getTable('sfGuardUser')->findOneByUsername('ataskuser');
+    $user = Doctrine_Core::getTable('sfGuardUser')->findOneByUsername('ataskuser');
     if (!$user)
     {
       // Cope with projects where username is slaved to email_address
-      $user = Doctrine::getTable('sfGuardUser')->findOneByUsername('ataskuser@example.com');
+      $user = Doctrine_Core::getTable('sfGuardUser')->findOneByUsername('ataskuser@example.com');
     }
     if (!$user)
     {

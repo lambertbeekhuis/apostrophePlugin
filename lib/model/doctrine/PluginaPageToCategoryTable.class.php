@@ -27,7 +27,7 @@ class PluginaPageToCategoryTable extends Doctrine_Table
    */
   public function mergeCategory($old_id, $new_id)
   {
-    Doctrine::getTable('aCategory')->mergeCategory($old_id, $new_id, 'aPageToCategory', 'category_id', true, 'page_id');
+    Doctrine_Core::getTable('aCategory')->mergeCategory($old_id, $new_id, 'aPageToCategory', 'category_id', true, 'page_id');
   }
 
 }
